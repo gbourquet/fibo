@@ -1,0 +1,27 @@
+grant codeBase "file:${java.home}/lib/ext/" {
+  permission java.security.AllPermission;
+};
+
+grant codeBase "file:${libraryJar.location}" {
+    permission java.security.AllPermission;
+};
+
+grant {
+    // Full access to content of the local work directory
+    permission java.io.FilePermission "${sandbox.dir}${/}-", "read, write, delete";
+
+    // Runtime permission (basic class/classloader access and thread management
+    permission java.lang.RuntimePermission "getClassLoader";
+    permission java.lang.RuntimePermission "getenv.*";
+    permission java.lang.RuntimePermission "modifyThread";
+    permission java.lang.RuntimePermission "stopThread";
+    permission java.lang.RuntimePermission "modifyThreadGroup";
+    permission java.lang.RuntimePermission "accessDeclaredMembers";
+    permission java.lang.RuntimePermission "getStackTrace";
+
+    // Properties read access
+    permission java.util.PropertyPermission "*", "read";
+
+    // Socket permission (listen only to prevent access to local services)
+    permission java.net.SocketPermission "localhost:1024-", "accept, listen";
+};
